@@ -2,12 +2,12 @@
   "name": "wetube",
   "version": "1.0.0",
   "description": "wetube-reloaded",
-  "scripts": {
-    "dev": "nodemon --exec babel-node src/server.js"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gunmokoo/wetube-reloaded.git"
+  },
+  "scripts": {
+    "dev": "nodemon --exec babel-node src/server.js"
   },
   "author": "Ging",
   "license": "MIT",
@@ -17,6 +17,7 @@
   "homepage": "https://github.com/gunmokoo/wetube-reloaded#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^6.0.5",
     "morgan": "^1.10.0",
     "pug": "^3.0.2"
   },
