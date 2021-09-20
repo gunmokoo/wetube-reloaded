@@ -149,17 +149,24 @@ export const postEdit = async (req, res) => {
     },
     body: { name, email, username, location },
   } = req;
-  const updateUser = await User.findByIdAndUpdate(
-    _id,
-    {
-      name,
-      email,
-      username,
-      location,
-    },
-    { new: true }
-  );
-  req.session.user = updateUser;
+  try {
+    const updateUser = await User.findByIdAndUpdate(
+      _id,
+      {
+        name,
+        email,
+        username,
+        location,
+      },
+      { new: true }
+    );
+    req.session.user = updatedUser;
+  } catch (error) {
+    return res.render("edit-profile", {
+      pageTitle: "Edit profile",
+      errorMessage: "username or email exists.",
+    });
+  }
   return res.redirect("/users/edit");
 };
 export const see = (req, res) => {
