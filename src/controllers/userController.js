@@ -1,5 +1,4 @@
 import User from "../models/User";
-import Video from "../models/Video";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
 
@@ -186,7 +185,13 @@ export const postChangePassword = async (req, res) => {
     },
     body: { oldPassword, newPassword, newPasswordConfirmation },
   } = req;
-  const user = await User.findById(_id);
+  const user = await User.findById(id).populate({
+    path: "videos",
+    populate: {
+      path: "owner",
+      model: "User",
+    },
+  });
   const ok = await bcrypt.compare(oldPassword, user.password);
   if (!ok) {
     return res.status(400).render("users/change-password", {
