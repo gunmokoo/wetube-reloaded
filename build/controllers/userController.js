@@ -322,8 +322,9 @@ var finishGithubLogin = /*#__PURE__*/function () {
 exports.finishGithubLogin = finishGithubLogin;
 
 var logout = function logout(req, res) {
-  req.session.destroy(); // req.flash("info", "Bye Bye");
-
+  req.session.loggedIn = false;
+  req.session.user = null;
+  req.flash("info", "Bye Bye");
   return res.redirect("/");
 };
 
@@ -339,17 +340,18 @@ exports.getEdit = getEdit;
 
 var postEdit = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
-    var _req$session$user, _id, avatarUrl, _req$body3, name, email, username, location, file, updatedUser;
+    var _req$session$user, _id, avatarUrl, _req$body3, name, email, username, location, file, isHeroku, updatedUser;
 
     return regeneratorRuntime.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _req$session$user = req.session.user, _id = _req$session$user._id, avatarUrl = _req$session$user.avatarUrl, _req$body3 = req.body, name = _req$body3.name, email = _req$body3.email, username = _req$body3.username, location = _req$body3.location, file = req.file;
-            _context4.prev = 1;
-            _context4.next = 4;
+            isHeroku = process.env.NODE_ENV === "production";
+            _context4.prev = 2;
+            _context4.next = 5;
             return _User["default"].findByIdAndUpdate(_id, {
-              avatarUrl: file ? file.path : avatarUrl,
+              avatarUrl: file ? isHeroku ? file.location : file.path : avatarUrl,
               name: name,
               email: email,
               username: username,
@@ -358,29 +360,29 @@ var postEdit = /*#__PURE__*/function () {
               "new": true
             });
 
-          case 4:
+          case 5:
             updatedUser = _context4.sent;
             req.session.user = updatedUser;
-            _context4.next = 11;
+            _context4.next = 12;
             break;
 
-          case 8:
-            _context4.prev = 8;
-            _context4.t0 = _context4["catch"](1);
+          case 9:
+            _context4.prev = 9;
+            _context4.t0 = _context4["catch"](2);
             return _context4.abrupt("return", res.render("edit-profile", {
               pageTitle: "Edit profile",
               errorMessage: "username or email exists."
             }));
 
-          case 11:
+          case 12:
             return _context4.abrupt("return", res.redirect("/users/edit"));
 
-          case 12:
+          case 13:
           case "end":
             return _context4.stop();
         }
       }
-    }, _callee4, null, [[1, 8]]);
+    }, _callee4, null, [[2, 9]]);
   }));
 
   return function postEdit(_x7, _x8) {
