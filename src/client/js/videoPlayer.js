@@ -64,7 +64,6 @@ const formatTime = (seconds) =>
 const handleLoadedMetadata = () => {
   totalTime.innerText = formatTime(Math.floor(video.duration));
   timeline.max = Math.floor(video.duration);
-  console.log(timeline.max);
 };
 const handleTimeUpdate = () => {
   currenTime.innerText = formatTime(Math.floor(video.currentTime));
@@ -115,7 +114,9 @@ const handleEnded = () => {
   });
 };
 
-console.log(video);
+if (video.readyState == 4) {
+  handleLoadedMetadata();
+}
 
 playBtn.addEventListener("click", hadlePlayClick);
 video.addEventListener("click", hadlePlayClick);
