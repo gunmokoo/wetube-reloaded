@@ -115,6 +115,8 @@ const handleEnded = () => {
   });
 };
 
+console.log(video);
+
 playBtn.addEventListener("click", hadlePlayClick);
 video.addEventListener("click", hadlePlayClick);
 window.addEventListener("keydown", hadlePlayKeydown);
